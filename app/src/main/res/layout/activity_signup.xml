@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Signup">
+
+    <TextView
+        android:id="@+id/signup_Textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sign up"
+        android:fontFamily="@font/calibribold"
+        android:textColor="@color/black"
+        android:textSize="35sp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="100dp"
+        tools:ignore="HardcodedText" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/email_Edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/email"
+        android:fontFamily="@font/calibri_regular"
+        android:textSize="20sp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_below="@id/signup_Textview"
+        android:paddingStart="30dp"
+        android:paddingEnd="30dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:background="@drawable/custom_edittext_background"/>
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/name_Edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Name"
+        android:fontFamily="@font/calibri_regular"
+        android:textSize="20sp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_below="@id/email_Edittext"
+        android:paddingStart="30dp"
+        android:paddingEnd="30dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:background="@drawable/custom_edittext_background"
+        tools:ignore="HardcodedText" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/password_Edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/password"
+        android:fontFamily="@font/calibri_regular"
+        android:textSize="20sp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:drawableEnd="@drawable/baseline_visibility_off_24"
+        android:inputType="textPassword"
+        android:layout_below="@id/name_Edittext"
+        android:paddingStart="30dp"
+        android:paddingEnd="30dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:background="@drawable/custom_edittext_background"/>
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/confirmPassword_Edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Confirm password"
+        android:fontFamily="@font/calibri_regular"
+        android:textSize="20sp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:inputType="textPassword"
+        android:drawableEnd="@drawable/baseline_visibility_off_24"
+        android:layout_below="@id/password_Edittext"
+        android:paddingStart="30dp"
+        android:paddingEnd="30dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:background="@drawable/custom_edittext_background"
+        tools:ignore="HardcodedText" />
+
+   <FrameLayout
+       android:layout_width="match_parent"
+       android:layout_height="85dp"
+       android:layout_below="@id/confirmPassword_Edittext"
+       android:layout_marginTop="5dp">
+       <RelativeLayout
+           android:layout_width="match_parent"
+           android:layout_height="match_parent">
+
+           <androidx.appcompat.widget.AppCompatButton
+               android:id="@+id/signup_Button"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:text="Sign up"
+               android:textAllCaps="false"
+               android:fontFamily="@font/calibribold"
+               android:textColor="@color/white"
+               android:textSize="20sp"
+               android:layout_marginStart="30dp"
+               android:layout_marginEnd="30dp"
+               android:layout_marginTop="15dp"
+               android:paddingBottom="15dp"
+               android:paddingTop="15dp"
+               android:background="@drawable/custom_primary_button"
+               tools:ignore="HardcodedText" />
+
+           <ProgressBar
+               android:id="@+id/signup_ProgressBar"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:indeterminateTint="@color/color_primary"
+               android:layout_centerInParent="true"
+               android:visibility="gone"/>
+       </RelativeLayout>
+   </FrameLayout>
+
+
+    <TextView
+        android:id="@+id/alreadyHaveAccount_Textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Already have an account? Log in here"
+        android:fontFamily="@font/calibri_regular"
+        android:textSize="18sp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="bottom"
+        android:layout_marginTop="10dp"
+        tools:ignore="HardcodedText"/>
+
+</RelativeLayout>

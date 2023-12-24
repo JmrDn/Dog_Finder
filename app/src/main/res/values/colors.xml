@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="color_primary">#8FB59E</color>
+    <color name="color_secondary">#E5FFEF</color>
+    <color name="color_background">#FAFAFA</color>
+    <color name="heart_rate_progress_background_color">#EBC3C3</color>
+    <color name="heart_rate_progress_color">#FF0000</color>
+    <color name="gray">#808080</color>
+</resources>

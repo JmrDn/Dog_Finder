@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/color_background"
+    tools:context=".BottomNavFragment.Profile">
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:id="@+id/toolbar"
+        android:background="@color/white"
+        android:elevation="2dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Profile"
+                android:layout_marginStart="20dp"
+                android:fontFamily="@font/calibribold"
+                android:textColor="@color/black"
+                android:textSize="25sp"
+                android:layout_centerVertical="true"/>
+        </RelativeLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="5dp"
+        android:backgroundTint="@color/white"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="2dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/dogName_Textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dog name"
+                android:fontFamily="@font/calibribold"
+                android:textSize="25sp"
+                android:textColor="@color/black"
+                android:layout_marginTop="80dp"
+                android:layout_marginStart="30dp"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/dogBreed_Textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dog breed"
+                android:fontFamily="@font/calibri_regular"
+                android:textSize="18sp"
+                android:layout_marginStart="30dp"
+                android:layout_below="@id/dogName_Textview"
+                tools:ignore="HardcodedText" />
+
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/dog_Imageview"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="30dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginBottom="40dp"
+                app:shapeAppearance="@style/circular"
+                app:srcCompat="@drawable/app_icon"
+                android:padding="5dp"
+                android:background="@color/color_secondary"
+                app:strokeColor="@color/color_primary"
+                app:strokeWidth="5dp"
+                />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="Edit"
+                android:textAllCaps="false"
+                android:fontFamily="@font/calibribold"
+                android:textColor="@color/color_primary"
+                android:textSize="18sp"
+                android:background="@drawable/custom_secondary_button"
+                android:layout_below="@id/dogBreed_Textview"
+                android:layout_marginTop="30dp"
+                android:layout_marginStart="30dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:drawableStart="@drawable/baseline_edit_24"
+                tools:ignore="HardcodedText" />
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+    
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:backgroundTint="@color/white"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="2dp"
+        android:layout_marginTop="5dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Owner's Name"
+                android:fontFamily="@font/calibribold"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="20dp"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/ownersName_Textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Owner's Name"
+                android:fontFamily="@font/calibri_regular"
+                android:textColor="@color/black"
+                android:textSize="25sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="30dp"
+                tools:ignore="HardcodedText" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="10dp">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/baseline_email_24"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="5dp"/>
+
+                <TextView
+                    android:id="@+id/ownersEmail_Textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="owner@gmail.com"
+                    android:textSize="25sp"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="30dp"
+                    tools:ignore="HardcodedText" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/logout_Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Log out"
+        android:fontFamily="@font/calibribold"
+        android:textSize="20sp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:textColor="@color/black"
+        android:textAllCaps="false"
+        android:background="@color/white"
+        android:layout_marginTop="10dp"
+        android:drawableEnd="@drawable/baseline_logout_24"
+        android:paddingEnd="30dp"
+        android:paddingStart="30dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        tools:ignore="HardcodedText" />
+    
+
+</LinearLayout>
