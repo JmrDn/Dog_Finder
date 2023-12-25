@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
@@ -39,7 +40,8 @@ public class Home extends Fragment {
             startActivity(new Intent(getContext(), DogLiveLocation.class));
         });
 
-
         return view;
     }
+
+
 }

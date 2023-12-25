@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -43,4 +43,33 @@
         </RelativeLayout>
     </FrameLayout>
 
-</FrameLayout>
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/direction_Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Direction"
+        android:drawableStart="@drawable/baseline_directions_24"
+        android:background="@drawable/custom_primary_button"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="30dp"
+        android:elevation="2dp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/calibribold"
+        android:textSize="18sp"
+        android:padding="15dp"
+        tools:ignore="HardcodedText"
+        />
+
+    <ImageView
+        android:id="@+id/focusDogLocation_Imageview"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/dog_focus_location_icon"
+        android:layout_above="@id/direction_Button"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="30dp"/>
+
+</RelativeLayout>

@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.ProgressBar;
@@ -19,7 +21,9 @@ public class HomePage extends AppCompatActivity implements NavigationBarView.OnI
 
     BottomNavigationView bottomNavigationView;
 
-    public final String value = "Home";
+    public boolean isHomeFragmentActive;
+
+    public String value;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -28,19 +32,32 @@ public class HomePage extends AppCompatActivity implements NavigationBarView.OnI
         setContentView(R.layout.activity_home_page);
         bottomNavigationView = findViewById(R.id.bottomNavigation);
 
+        Intent intent = getIntent();
+        value = intent.getStringExtra("value");
+
+        if (value == null){
+            value = "Home";
+        }
+        else{
+            bottomNavigationView.setSelectedItemId(R.id.Profile);
+
+        }
+
+
         bottomNavigationView.setOnItemSelectedListener(this);
 
         Fragment selectedFragment = null;
 
         if (value.equals("Home")){
+            isHomeFragmentActive = true;
             selectedFragment = new Home();
+        }
+        else if (value.equals("profile")){
+            isHomeFragmentActive = false;
+            selectedFragment = new Profile();
         }
 
         getSupportFragmentManager().beginTransaction().replace(R.id.container, selectedFragment).commit();
-
-
-
-
 
     }
 
@@ -51,16 +68,32 @@ public class HomePage extends AppCompatActivity implements NavigationBarView.OnI
         int itemId = item.getItemId();
 
         if (itemId == R.id.Home){
+            isHomeFragmentActive = true;
             selectedFragment = new Home();
+
         }
         else if (itemId == R.id.History){
+            isHomeFragmentActive = false;
             selectedFragment = new History();
         }
         else if (itemId == R.id.Profile){
+            isHomeFragmentActive = false;
             selectedFragment = new Profile();
         }
 
         getSupportFragmentManager().beginTransaction().replace(R.id.container, selectedFragment).commit();
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        if(isHomeFragmentActive){
+            finishAffinity();
+        }
+        else{
+            super.onBackPressed();
+        }
+
     }
 }

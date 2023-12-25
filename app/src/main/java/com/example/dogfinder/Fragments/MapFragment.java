@@ -2,15 +2,19 @@ package com.example.dogfinder.Fragments;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
@@ -20,6 +24,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.dogfinder.R;
@@ -60,6 +65,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private FusedLocationProviderClient fusedLocationProviderClient;
 
     Marker marker;
+    private AppCompatButton directionBtn;
+    private ImageView dogFocusLocation;
 
 
     @Override
@@ -73,6 +80,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         supportMapFragment.getMapAsync(this::onMapReady);
         initWidgets(view);
         locatingLayout.setVisibility(View.GONE);
+        directionBtn.setVisibility(View.GONE);
+        dogFocusLocation.setVisibility(View.GONE);
 
         mapInitialize();
         return  view;
@@ -81,18 +90,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     private void initWidgets(View view) {
         locatingLayout = view.findViewById(R.id.locating_FrameLayout);
+        directionBtn = view.findViewById(R.id.direction_Button);
+        dogFocusLocation =view.findViewById(R.id.focusDogLocation_Imageview);
 
     }
-    private void refresh(int milliseconds){
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
 
-                onMapReady(gMap);
-
-            }
-        },milliseconds);
-    }
 
     private void mapInitialize() {
 
@@ -154,6 +156,17 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                                           // latitude and longitude is not null
                                           else{
                                               locatingLayout.setVisibility(View.GONE);
+                                              directionBtn.setVisibility(View.VISIBLE);
+                                              dogFocusLocation.setVisibility(View.VISIBLE);
+
+
+
+                                              directionBtn.setOnClickListener(v->{
+                                                  String from = location.getLatitude() + "," + location.getLongitude();
+                                                  String to = latitudeString + "," + longitudeString;
+
+                                                  getDirections(from, to);
+                                              });
                                               double latitude = Double.parseDouble(latitudeString);
                                               double longitude = Double.parseDouble(longitudeString);
                                               if (marker != null) {
@@ -169,19 +182,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
                                               CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 17);
                                               gMap.animateCamera(cameraUpdate);
+
+                                              dogFocusLocation.setOnClickListener(v->{
+                                                  gMap.animateCamera(cameraUpdate);
+                                              });
                                           }
 
 
-
-
-
-
                                         }
-
-
-
-
-
 
                                     }
 
@@ -222,5 +230,19 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         drawable.draw(canvas);
 
         return BitmapDescriptorFactory.fromBitmap(bitmap);
+    }
+    private void getDirections(String from, String to){
+        try {
+            Uri uri = Uri.parse("https://www.google.com/maps/dir/" + from + "/" + to);
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            intent.setPackage("com.google.android.apps.maps");
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+
+        }
+        catch (ActivityNotFoundException e){
+            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+
+        }
     }
 }
