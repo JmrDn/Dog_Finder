@@ -114,12 +114,12 @@
                     android:layout_height="150dp"
                     android:indeterminateOnly="false"
                     android:rotation="120"
-                    android:progressDrawable="@drawable/heart_rate_progress_background"
                     />
 
             </RelativeLayout>
 
             <TextView
+                android:id="@+id/timeOfHeartRate_Textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="As of 10:30 AM"
@@ -130,6 +130,15 @@
                 android:layout_marginTop="100dp"
                 android:layout_marginStart="20dp"
                 tools:ignore="HardcodedText" />
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_below="@id/progressBar_Relativelayout"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:id="@+id/heartRate_LineChart"/>
 
         </RelativeLayout>
     </androidx.cardview.widget.CardView>

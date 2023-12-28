@@ -19,6 +19,9 @@
         android:theme="@style/Theme.DogFinder"
         tools:targetApi="31">
         <activity
+            android:name=".DayActivity"
+            android:exported="false" />
+        <activity
             android:name=".EditProfile"
             android:exported="false" />
 

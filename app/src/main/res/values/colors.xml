@@ -8,4 +8,8 @@
     <color name="heart_rate_progress_background_color">#EBC3C3</color>
     <color name="heart_rate_progress_color">#FF0000</color>
     <color name="gray">#808080</color>
+    <color name="low_heart_rate_bg">#FFFDD2</color>
+    <color name="low_heart_rate">#FBF44C</color>
+    <color name="normal_heart_rate">#21CAFF</color>
+    <color name="normal_heart_rate_bg">#C8F2FF</color>
 </resources>
