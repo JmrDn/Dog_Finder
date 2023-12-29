@@ -39,14 +39,18 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
         holder.heartRate.setText(historyModel.getHeartRate());
         holder.date.setText(historyModel.getDate());
         holder.address.setText(historyModel.getAddress());
+        holder.latitudeString = String.valueOf(historyModel.getLatitude());
+        holder.longitudeString = String.valueOf(historyModel.getLongitude());
 
         holder.itemView.setOnClickListener(v->{
             Intent intent = new Intent(context, DayActivity.class);
             intent.putExtra("dateId", historyModel.getDateId());
             intent.putExtra("date", historyModel.getDate());
-            intent.putExtra("latitude", historyModel.getLatitude());
-            intent.putExtra("longitude", historyModel.getLongitude());
+            intent.putExtra("latitude", holder.latitudeString);
+            intent.putExtra("longitude", holder.longitudeString);
             intent.putExtra("heartRate", historyModel.getHeartRate());
+            intent.putExtra("highestHeartRate", historyModel.getHighestHeartRate());
+            intent.putExtra("lowestHeartRate", historyModel.getLowestHeartRate());
 
             context.startActivity(intent);
         });
@@ -60,6 +64,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView address, date, heartRate;
+        String latitudeString, longitudeString;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 

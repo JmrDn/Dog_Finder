@@ -71,61 +71,182 @@
                     android:layout_marginStart="20dp"
                     tools:ignore="HardcodedText" />
 
-                <RelativeLayout
-                    android:id="@+id/progressBar_Relativelayout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <LinearLayout
+                    android:id="@+id/highestHeartRate_LinearLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="30dp"
                     android:layout_marginStart="20dp"
-                    android:layout_below="@id/dogsHeartRate_Textview"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="10dp">
+                    android:layout_marginEnd="20dp"
+                    android:background="@drawable/custom_high_and_lowest_hr_bg"
+                    android:layout_below="@id/dogsHeartRate_Textview">
+                    
+                    <RelativeLayout
+                        android:layout_width="70dp"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/custom_highest_hr_icon_bg">
 
-                    <TextView
-                        android:id="@+id/heartRate_Textview"
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/highest_heart_rate_icon"
+                            android:layout_centerInParent="true"/>
+
+                    </RelativeLayout>
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="120"
-                        android:textColor="@color/black"
-                        android:fontFamily="@font/calibribold"
-                        android:textSize="25sp"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="50dp"
-                        tools:ignore="HardcodedText" />
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:layout_marginStart="10dp"
+                        >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Highest Heart rate"
+                            android:textColor="@color/black"
+                            android:fontFamily="@font/calibribold"
+                            android:textSize="18sp"
+                            android:layout_marginTop="5dp"
+                            tools:ignore="HardcodedText" />
 
-                    <TextView
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/highestHeartRate_Textview"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="120"
+                                android:textColor="@color/black"
+                                android:fontFamily="@font/calibribold"
+                                android:textSize="30sp"
+                                android:layout_marginTop="-5dp"
+                                tools:ignore="HardcodedText" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="BPM"
+                                android:textColor="@color/black"
+                                android:fontFamily="@font/calibribold"
+                                android:textSize="15sp"
+                                android:layout_marginTop="-5dp"
+                                android:layout_marginStart="5dp"
+                                tools:ignore="HardcodedText" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/lowestHeartRate_LinearLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:background="@drawable/custom_high_and_lowest_hr_bg"
+                    android:layout_below="@id/highestHeartRate_LinearLayout">
+
+                    <RelativeLayout
+                        android:layout_width="70dp"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/custom_lowest_hr_icon_bg">
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/lowest_heart_rate_icon"
+                            android:layout_centerInParent="true"/>
+
+                    </RelativeLayout>
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="BPM"
-                        android:fontFamily="@font/calibri_regular"
-                        android:layout_centerHorizontal="true"
-                        android:layout_below="@id/heartRate_Textview"
-                        android:textSize="15sp"
-                        android:textColor="@color/black"
-                        tools:ignore="HardcodedText" />
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:layout_marginStart="10dp"
+                        >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Lowest Heart rate"
+                            android:textColor="@color/black"
+                            android:fontFamily="@font/calibribold"
+                            android:textSize="18sp"
+                            android:layout_marginTop="5dp"
+                            tools:ignore="HardcodedText" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/lowestHeartRate_Textview"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="30"
+                                android:textColor="@color/black"
+                                android:fontFamily="@font/calibribold"
+                                android:textSize="30sp"
+                                android:layout_marginTop="-5dp"
+                                tools:ignore="HardcodedText" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="BPM"
+                                android:textColor="@color/black"
+                                android:fontFamily="@font/calibribold"
+                                android:textSize="15sp"
+                                android:layout_marginTop="-5dp"
+                                android:layout_marginStart="5dp"
+                                tools:ignore="HardcodedText" />
+                        </LinearLayout>
+                    </LinearLayout>
 
 
 
-                    <ProgressBar
-                        android:id="@+id/heartRate_Progressbar"
-                        android:layout_width="150dp"
-                        android:layout_height="150dp"
-                        android:indeterminateOnly="false"
+                </LinearLayout>
 
-                        android:rotation="120"
-                        />
 
-                </RelativeLayout>
+
 
 
 
                 <com.github.mikephil.charting.charts.LineChart
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
-                    android:layout_below="@id/progressBar_Relativelayout"
+                    android:layout_below="@id/lowestHeartRate_LinearLayout"
                     android:layout_marginTop="10dp"
                     android:layout_marginStart="30dp"
                     android:layout_marginEnd="30dp"
                     android:id="@+id/heartRate_LineChart"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/heartRateHistory_Button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="History"
+                    android:fontFamily="@font/calibribold"
+                    android:padding="15dp"
+                    android:textAllCaps="false"
+                    android:background="?attr/selectableItemBackground"
+                    android:textSize="18sp"
+                    android:drawableEnd="@drawable/forward_arrow"
+                    android:layout_below="@id/heartRate_LineChart"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="10dp"
+                    tools:ignore="HardcodedText" />
 
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
@@ -142,7 +263,7 @@
             app:cardCornerRadius="5dp">
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="500dp">
 
                 <TextView
                     android:id="@+id/lastLocation_Textview"
@@ -165,13 +286,41 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="20dp"/>
 
-                <fragment
-                    android:layout_width="match_parent"
-                    android:layout_height="400dp"
-                    android:id="@+id/MY_MAP"
-                    android:layout_below="@id/lastLocation_Textview"
-                    android:layout_marginTop="25dp"
-                    android:name="com.google.android.gms.maps.SupportMapFragment"/>
+               <FrameLayout
+                   android:id="@+id/map_FrameLayout"
+                   android:layout_width="match_parent"
+                   android:layout_below="@id/lastLocation_Textview"
+                   android:layout_height="match_parent">
+
+                   <fragment
+                       android:layout_width="match_parent"
+                       android:layout_height="match_parent"
+                       android:id="@+id/MY_MAP_HISTORY"
+                       android:layout_marginTop="25dp"
+                       android:name="com.google.android.gms.maps.SupportMapFragment"/>
+               </FrameLayout>
+
+                <TextView
+                    android:id="@+id/noLocation_Textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No Location"
+                    android:fontFamily="@font/calibribold"
+                    android:textColor="@color/black"
+                    android:textSize="30sp"
+                    android:layout_centerInParent="true"
+                    tools:ignore="HardcodedText" />
+
+                <ImageView
+                    android:id="@+id/getDirection_Imageview"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/baseline_directions_24"
+                    android:background="@color/color_primary"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="20dp"/>
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
     </LinearLayout>

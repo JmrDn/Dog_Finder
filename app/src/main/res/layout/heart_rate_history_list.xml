@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginStart="20dp"
+    android:layout_marginEnd="20dp"
+    android:background="@drawable/custom_high_and_lowest_hr_bg">
+
+    <ImageView
+        android:id="@+id/heartRateIcon_Imageview"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/heart_rate_icon"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="20dp"/>
+
+    <TextView
+        android:id="@+id/heartRate_Textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="100"
+        android:fontFamily="@font/calibribold"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:layout_toEndOf="@id/heartRateIcon_Imageview"
+        android:layout_marginStart="10dp"
+        android:layout_centerVertical="true"
+        tools:ignore="HardcodedText" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="BPM"
+        android:fontFamily="@font/calibribold"
+        android:textSize="15sp"
+        android:textColor="@color/black"
+        android:layout_toEndOf="@id/heartRate_Textview"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="5dp"
+        tools:ignore="HardcodedText" />
+
+    <TextView
+        android:id="@+id/time_Textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="23:01"
+        android:fontFamily="@font/calibri_regular"
+        android:textColor="@color/gray"
+        android:textSize="15sp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
+        tools:ignore="HardcodedText" />
+
+</RelativeLayout>

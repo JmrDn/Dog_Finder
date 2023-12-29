@@ -80,6 +80,11 @@ public class History extends Fragment {
                             for (QueryDocumentSnapshot documentSnapshot: task.getResult()){
                                 if(documentSnapshot.exists()){
                                     long heartRateInt = (long) documentSnapshot.get("bpmAverage");
+                                    long highestHeartRate = (long) documentSnapshot.get("highest_heart_rate");
+                                    long lowestHeartRate = (long) documentSnapshot.get("lowest_heart_rate");
+
+                                    String highestHeartRateString = String.valueOf(highestHeartRate);
+                                    String lowestHeartRateString = String.valueOf(lowestHeartRate);
                                     String heartRate = String.valueOf(heartRateInt);
                                     String date = DateAndTimeFormatUtils.wordDateFormat(documentSnapshot.getString("date"));
                                     String dateId = documentSnapshot.getString("dateId");
@@ -87,7 +92,13 @@ public class History extends Fragment {
                                     double longitude = (double) documentSnapshot.get("longitude");
                                     String address = getCompleteAddressString(latitude, longitude);
 
-                                    list.add(new HistoryModel(heartRate, address, date, dateId, latitude, longitude));
+                                    if(address.isEmpty()){
+                                        address = "Philippines";
+                                    }
+
+                                    list.add(new HistoryModel(heartRate, address, date,
+                                            dateId, latitude, longitude,
+                                            highestHeartRateString, lowestHeartRateString));
 
                                 }
                                 if (historyAdapter != null){

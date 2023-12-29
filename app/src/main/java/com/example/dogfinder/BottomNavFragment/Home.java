@@ -267,20 +267,8 @@ public class Home extends Fragment {
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
                             if(task.isSuccessful()){
-                                double latitude = 0;
-                                double longitude = 0;
-                                int heartRate;
-                                int totalHeartRate = 0;
-                                int heartRateAve;
-                                int heartRateDataLength = 0;
 
-                                for (DocumentSnapshot documentSnapshot : task.getResult()){
-                                    String heartRateString = documentSnapshot.getString("heart_rate");
-                                    heartRate = Integer.parseInt(heartRateString);
 
-                                    totalHeartRate += heartRate;
-                                    heartRateDataLength++;
-                                }
 
                                 QuerySnapshot queryDocumentSnapshots = task.getResult();
 
@@ -292,12 +280,35 @@ public class Home extends Fragment {
                                         latitude = (double)latestDocument.get("latitude");
                                         longitude = (double) latestDocument.get("longitude");
 
-                                       ;
                                     }
+
+                                    double latitude = 0;
+                                    double longitude = 0;
+                                    int heartRate;
+                                    int totalHeartRate = 0;
+                                    int heartRateAve;
+                                    int heartRateDataLength = 0;
+                                    int highestHeartRate = 0;
+                                    int lowestHeartRate = 400;
+
+                                    for (DocumentSnapshot documentSnapshot : task.getResult()){
+                                        String heartRateString = documentSnapshot.getString("heart_rate");
+                                        heartRate = Integer.parseInt(heartRateString);
+
+                                        if (heartRate > highestHeartRate)
+                                            highestHeartRate = heartRate;
+                                        if (heartRate < lowestHeartRate)
+                                            lowestHeartRate = heartRate;
+
+                                        totalHeartRate += heartRate;
+                                        heartRateDataLength++;
+                                    }
+
+                                    heartRateAve = totalHeartRate / heartRateDataLength;
+                                    setDataAverage(heartRateAve, latitude, longitude, highestHeartRate, lowestHeartRate);
+
                                 }
 
-                                heartRateAve = totalHeartRate / heartRateDataLength;
-                                setDataAverage(heartRateAve, latitude, longitude);
 
                             }
 
@@ -309,7 +320,7 @@ public class Home extends Fragment {
 
     }
 
-    private void setDataAverage(int heartRateAve, double latitude, double longitude) {
+    private void setDataAverage(int heartRateAve, double latitude, double longitude, int highestHeartRate, int lowestHeartRate) {
         Date date = new Date();
 
         DocumentReference documentReference = firebaseFirestore.collection("Users")
@@ -322,6 +333,8 @@ public class Home extends Fragment {
         averageDocument.put("latitude", latitude);
         averageDocument.put("longitude", longitude);
         averageDocument.put("dateId", DateAndTimeFormatUtils.dateForDocumentName(date));
+        averageDocument.put("highest_heart_rate", highestHeartRate);
+        averageDocument.put("lowest_heart_rate", lowestHeartRate);
 
         if(documentReference != null){
             documentReference.set(averageDocument)

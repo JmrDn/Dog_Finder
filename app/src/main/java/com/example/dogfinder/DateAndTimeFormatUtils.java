@@ -44,4 +44,20 @@ public class DateAndTimeFormatUtils {
         }
         return  dateFormatted;
     }
+    public static String dateAndTimeConvertedToTimeFormat(String dateAndTime){
+        String time;
+
+        DateFormat dateAndTimeFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+
+        try {
+            Date date= dateAndTimeFormat.parse(dateAndTime);
+            DateFormat timeFormat = new SimpleDateFormat("hh:mm a");
+            time = timeFormat.format(date);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+
+        return  time;
+
+    }
 }
