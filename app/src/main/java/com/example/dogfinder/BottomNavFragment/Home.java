@@ -21,13 +21,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.dogfinder.ConnectToSensor;
 import com.example.dogfinder.DateAndTimeFormatUtils;
 import com.example.dogfinder.DogLiveLocation;
 import com.example.dogfinder.R;
+import com.example.dogfinder.SensorInfo;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -75,6 +78,7 @@ public class Home extends Fragment {
     TextView heartRateTV, timeHeartRateTV;
     double latitude = 0;
     double longitude = 0;
+    private ImageView connectToSensorBtn;
 
 
 
@@ -86,10 +90,9 @@ public class Home extends Fragment {
         View view =  inflater.inflate(R.layout.fragment_home, container, false);
 
         initWidgets(view);
-        setTodayHeartRateAndLocation();
+        setUpUserConnectionToSensor();
         setUpLineChart();
         getDataAverage();
-        setUpHeartRateProgress();
 
 
 
@@ -101,9 +104,64 @@ public class Home extends Fragment {
         return view;
     }
 
-    private void setUpHeartRateProgress() {
 
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("84953").child("heart_rate");
+
+    private void setUpUserConnectionToSensor() {
+        FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getUid())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()){
+                            DocumentSnapshot documentSnapshot = task.getResult();
+                            if (documentSnapshot.exists()){
+                                if (documentSnapshot.contains("isConnected") &&
+                                        documentSnapshot.contains("isConnectedToSensorId")){
+                                    boolean isConnected = documentSnapshot.getBoolean("isConnected");
+                                    String sensorId = documentSnapshot.getString("isConnectedToSensorId");
+
+                                    if(isConnected){
+
+                                        setUpHeartRateProgress(sensorId);
+                                        setTodayHeartRateAndLocation(sensorId);
+                                        connectToSensorBtn.setColorFilter(ContextCompat.getColor(getContext(), R.color.color_primary));
+                                        connectToSensorBtn.setOnClickListener(v->{
+                                            Intent intent = new Intent(getContext(), SensorInfo.class);
+                                            intent.putExtra("sensorId", sensorId);
+                                            intent.putExtra("isConnected", true);
+                                            startActivity(intent);
+                                        });
+                                    }
+                                    else{
+                                        heartRateTV.setText("0");
+                                        heartRateProgress.setBackgroundResource(R.drawable.low_heart_rate_progress_bg);
+                                        heartRateProgress.setProgressDrawable(ContextCompat.getDrawable(getContext(), R.drawable.low_heart_rate_progress_bg));
+                                        connectToSensorBtn.setColorFilter(Color.RED);
+
+                                        connectToSensorBtn.setOnClickListener(v->{
+                                            startActivity(new Intent(getContext(), ConnectToSensor.class));
+                                        });
+                                    }
+                                    }
+                                else{
+                                    heartRateTV.setText("0");
+                                    heartRateProgress.setBackgroundResource(R.drawable.low_heart_rate_progress_bg);
+                                    heartRateProgress.setProgressDrawable(ContextCompat.getDrawable(getContext(), R.drawable.low_heart_rate_progress_bg));
+                                    connectToSensorBtn.setColorFilter(Color.RED);
+
+                                    connectToSensorBtn.setOnClickListener(v->{
+                                        startActivity(new Intent(getContext(), ConnectToSensor.class));
+                                    });
+                                }
+                                }
+                            }
+                        }
+                });
+    }
+
+    private void setUpHeartRateProgress(String sensorId) {
+
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(sensorId).child("heart_rate");
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @SuppressLint("ResourceType")
@@ -161,12 +219,12 @@ public class Home extends Fragment {
 
     }
 
-    private void setTodayHeartRateAndLocation() {
+    private void setTodayHeartRateAndLocation(String sensorId) {
 
 
 
         //Get Location
-        DatabaseReference databaseReferenceLocation = FirebaseDatabase.getInstance().getReference("84953").child("location");
+        DatabaseReference databaseReferenceLocation = FirebaseDatabase.getInstance().getReference(sensorId).child("location");
 
         databaseReferenceLocation.addValueEventListener(new ValueEventListener() {
             @Override
@@ -192,7 +250,7 @@ public class Home extends Fragment {
 
 
         //Get heart rate
-        DatabaseReference databaseReferenceHeartRate = FirebaseDatabase.getInstance().getReference("84953").child("heart_rate");
+        DatabaseReference databaseReferenceHeartRate = FirebaseDatabase.getInstance().getReference(sensorId).child("heart_rate");
 
         databaseReferenceHeartRate.addValueEventListener(new ValueEventListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -209,8 +267,6 @@ public class Home extends Fragment {
                             .document(userId).collection("daily_history")
                             .document(dateForDocumentName).collection(dateForDocumentName);
 
-
-
                     HashMap<String, Object> todayHeartRateAndLocation = new HashMap<>();
                     todayHeartRateAndLocation.put("heart_rate", heartRate);
                     todayHeartRateAndLocation.put("date_and_time", timeStamp);
@@ -218,19 +274,23 @@ public class Home extends Fragment {
                     todayHeartRateAndLocation.put("longitude", longitude);
 
 
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            collectionReference.add(todayHeartRateAndLocation)
+                                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                        @Override
+                                        public void onSuccess(DocumentReference documentReference) {
 
-                    collectionReference.add(todayHeartRateAndLocation)
-                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                @Override
-                                public void onSuccess(DocumentReference documentReference) {
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
 
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-
-                                }
-                            });
+                                        }
+                                    });
+                        }
+                    },10000);
 
 
 
@@ -268,8 +328,6 @@ public class Home extends Fragment {
 
                             if(task.isSuccessful()){
 
-
-
                                 QuerySnapshot queryDocumentSnapshots = task.getResult();
 
                                 if (!queryDocumentSnapshots.isEmpty()){
@@ -295,10 +353,12 @@ public class Home extends Fragment {
                                         String heartRateString = documentSnapshot.getString("heart_rate");
                                         heartRate = Integer.parseInt(heartRateString);
 
-                                        if (heartRate > highestHeartRate)
-                                            highestHeartRate = heartRate;
-                                        if (heartRate < lowestHeartRate)
-                                            lowestHeartRate = heartRate;
+                                        if(heartRate != 0){
+                                            if (heartRate > highestHeartRate)
+                                                highestHeartRate = heartRate;
+                                            if (heartRate < lowestHeartRate)
+                                                lowestHeartRate = heartRate;
+                                        }
 
                                         totalHeartRate += heartRate;
                                         heartRateDataLength++;
@@ -436,6 +496,8 @@ public class Home extends Fragment {
         firebaseFirestore = FirebaseFirestore.getInstance();
 
          userId = FirebaseAuth.getInstance().getUid();
+
+         connectToSensorBtn = view.findViewById(R.id.connect_Imageview);
     }
 
     private void refreshLineChart(int milliseconds){

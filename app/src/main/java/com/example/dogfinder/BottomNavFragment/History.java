@@ -62,13 +62,16 @@ public class History extends Fragment {
         userId = FirebaseAuth.getInstance().getUid();
         list = new ArrayList<>();
         historyAdapter = new HistoryAdapter(getContext(), list);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setStackFromEnd(true);
+        recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(historyAdapter);
 
         CollectionReference collectionReference = firebaseFirestore.collection("Users").document(userId)
                 .collection("daily_history");
 
-        Query query = collectionReference.orderBy("date", Query.Direction.DESCENDING);
+        Query query = collectionReference.orderBy("dateId", Query.Direction.ASCENDING);
 
         query.get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -82,9 +85,11 @@ public class History extends Fragment {
                                     long heartRateInt = (long) documentSnapshot.get("bpmAverage");
                                     long highestHeartRate = (long) documentSnapshot.get("highest_heart_rate");
                                     long lowestHeartRate = (long) documentSnapshot.get("lowest_heart_rate");
+                                    long averageHeartRate = (long) documentSnapshot.get("bpmAverage");
 
                                     String highestHeartRateString = String.valueOf(highestHeartRate);
                                     String lowestHeartRateString = String.valueOf(lowestHeartRate);
+                                    String averageHeartRateString = String.valueOf(averageHeartRate);
                                     String heartRate = String.valueOf(heartRateInt);
                                     String date = DateAndTimeFormatUtils.wordDateFormat(documentSnapshot.getString("date"));
                                     String dateId = documentSnapshot.getString("dateId");
@@ -98,7 +103,7 @@ public class History extends Fragment {
 
                                     list.add(new HistoryModel(heartRate, address, date,
                                             dateId, latitude, longitude,
-                                            highestHeartRateString, lowestHeartRateString));
+                                            highestHeartRateString, lowestHeartRateString, averageHeartRateString));
 
                                 }
                                 if (historyAdapter != null){

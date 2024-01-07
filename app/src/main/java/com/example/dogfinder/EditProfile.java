@@ -17,11 +17,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.dhaval2404.imagepicker.ImagePicker;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -47,6 +50,9 @@ public class EditProfile extends AppCompatActivity {
     Toolbar toolbar;
     Uri uri;
     ProgressDialog progressDialog;
+    private TextView dogNameTV;
+    private TextView dogBreedTV;
+    private ImageView editDogInfoBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +63,12 @@ public class EditProfile extends AppCompatActivity {
 
         setUpToolbar();
         setProfilePicture();
+        setUpDogInfo();
         buttonLayout.setVisibility(View.GONE);
+
+        editDogInfoBtn.setOnClickListener(v->{
+            startActivity(new Intent(getApplicationContext(), EditDogInfo.class));
+        });
         
         cancelBtn.setOnClickListener(v->{
             onBackPressed();
@@ -76,6 +87,35 @@ public class EditProfile extends AppCompatActivity {
                     .start();
 
         });
+    }
+
+    private void setUpDogInfo() {
+        FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getUid())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()){
+                            DocumentSnapshot documentSnapshot = task.getResult();
+
+                            if (documentSnapshot.exists()){
+
+                                String dogName = documentSnapshot.getString("dog_name");
+                                String dogBreed = documentSnapshot.getString("dog_breed");
+
+                                if (dogName != null &&
+                                        dogBreed != null){
+                                    dogNameTV.setText(dogName);
+                                    dogBreedTV.setText(dogBreed);
+                                }
+
+
+
+
+                            }
+                        }
+                    }
+                });
     }
 
     private void setUpToolbar() {
@@ -194,6 +234,11 @@ public class EditProfile extends AppCompatActivity {
         selectImageBtn = findViewById(R.id.uploadImage_Imageview);
         buttonLayout = findViewById(R.id.button_LinearLayout);
         toolbar = findViewById(R.id.toolbar);
+
+        dogBreedTV = findViewById(R.id.dogBreed_Textview);
+        dogNameTV = findViewById(R.id.dogName_Textview);
+        editDogInfoBtn = findViewById(R.id.edit_Imageview);
+
     }
 
     @Override

@@ -48,7 +48,7 @@
 
             <TextView
                 android:id="@+id/dogName_Textview"
-                android:layout_width="wrap_content"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:text="Dog name"
                 android:fontFamily="@font/calibribold"
@@ -56,7 +56,19 @@
                 android:textColor="@color/black"
                 android:layout_marginTop="80dp"
                 android:layout_marginStart="30dp"
+
+
                 tools:ignore="HardcodedText" />
+
+            <ImageView
+                android:id="@+id/edit_Imageview"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/baseline_edit_24"
+                android:layout_above="@id/dogName_Textview"
+                android:layout_marginBottom="-80dp"
+                android:layout_marginStart="20dp"
+                />
 
             <TextView
                 android:id="@+id/dogBreed_Textview"
@@ -66,6 +78,7 @@
                 android:fontFamily="@font/calibri_regular"
                 android:textSize="18sp"
                 android:layout_marginStart="30dp"
+
                 android:layout_below="@id/dogName_Textview"
                 tools:ignore="HardcodedText" />
 

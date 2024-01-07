@@ -217,7 +217,7 @@ public class Signup extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
                             //User details saved successfully
-
+                            firebaseAuth.signOut();
                             Toast.makeText(getApplicationContext(), "Successfully Register", Toast.LENGTH_LONG).show();
                             startActivity(new Intent(getApplicationContext(), Login.class));
                         }

@@ -51,6 +51,8 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
             intent.putExtra("heartRate", historyModel.getHeartRate());
             intent.putExtra("highestHeartRate", historyModel.getHighestHeartRate());
             intent.putExtra("lowestHeartRate", historyModel.getLowestHeartRate());
+            intent.putExtra("averageHeartRate",historyModel.getAverageHeartRate());
+
 
             context.startActivity(intent);
         });

@@ -44,6 +44,8 @@ public class Profile extends Fragment {
     StorageReference storageReference;
     ShapeableImageView dogImageview;
     public String userPPFileName;
+    private TextView dogNameTV;
+    private TextView dogBreedTV;
 
     @Override
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup container, Bundle savedInstances) {
@@ -51,7 +53,7 @@ public class Profile extends Fragment {
         View view = layoutInflater.inflate(R.layout.activity_profile, container, false);
 
         initWidgets(view);
-        setUpOwnersName();
+        setUpOwnersNameAndDogInfo();
         setProfilePicture();
 
         intent = new Intent(getContext(), EditProfile.class);
@@ -72,7 +74,7 @@ public class Profile extends Fragment {
         startActivity(new Intent(getContext(), Login.class));
     }
 
-    private void setUpOwnersName() {
+    private void setUpOwnersNameAndDogInfo() {
 
         String userID = firebaseAuth.getUid();
 
@@ -88,6 +90,14 @@ public class Profile extends Fragment {
                                 String NAME = documentSnapshot.getString("name");
                                 String EMAIL = documentSnapshot.getString("email");
                                 String USERID = documentSnapshot.getString("userID");
+                                String dogName = documentSnapshot.getString("dog_name");
+                                String dogBreed = documentSnapshot.getString("dog_breed");
+
+                                if (dogName != null &&
+                                dogBreed != null){
+                                    dogNameTV.setText(dogName);
+                                    dogBreedTV.setText(dogBreed);
+                                }
 
 
 
@@ -156,6 +166,9 @@ public class Profile extends Fragment {
         logoutBtn = view.findViewById(R.id.logout_Button);
         editProfileBtn = view.findViewById(R.id.editProfile_Button);
         dogImageview = view.findViewById(R.id.dog_Imageview);
+
+        dogBreedTV = view.findViewById(R.id.dogBreed_Textview);
+        dogNameTV = view.findViewById(R.id.dogName_Textview);
 
     }
 }

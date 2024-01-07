@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.net.Uri;
@@ -16,6 +17,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
@@ -27,7 +29,9 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.dogfinder.ConnectToSensor;
 import com.example.dogfinder.R;
+import com.example.dogfinder.SensorInfo;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
@@ -41,13 +45,18 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionDeniedResponse;
@@ -136,70 +145,98 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                             @Override
                             public void onSuccess(Location location) {
 
-                                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("84953").child("location");
+                                FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getUid())
+                                        .get()
+                                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                if (task.isSuccessful()){
+                                                    DocumentSnapshot documentSnapshot = task.getResult();
+                                                    if (documentSnapshot.exists()){
+                                                        if (documentSnapshot.contains("isConnected") &&
+                                                                documentSnapshot.contains("isConnectedToSensorId")){
+                                                            boolean isConnected = documentSnapshot.getBoolean("isConnected");
+                                                            String sensorId = documentSnapshot.getString("isConnectedToSensorId");
 
-                                databaseReference.addValueEventListener(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                            if(isConnected){
+                                                                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(sensorId).child("location");
+                                                                databaseReference.addValueEventListener(new ValueEventListener() {
+                                                                    @Override
+                                                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                                        if(snapshot.exists()){
-                                            //Getting value from firebase real time database
+                                                                        if(snapshot.exists()){
+                                                                            //Getting value from firebase real time database
 
-                                          String latitudeString =  snapshot.child("latitude").getValue().toString();
-                                          String longitudeString =  snapshot.child("longitude").getValue().toString();
+                                                                            String latitudeString =  snapshot.child("latitude").getValue().toString();
+                                                                            String longitudeString =  snapshot.child("longitude").getValue().toString();
 
-                                          //latitude and longitude is null
-                                          if (latitudeString.equals("0") && longitudeString.equals("0")) {
+                                                                            //latitude and longitude is null
+                                                                            if (latitudeString.equals("0") && longitudeString.equals("0")) {
 
-                                              locatingLayout.setVisibility(View.VISIBLE);
-                                          }
-                                          // latitude and longitude is not null
-                                          else{
-                                              locatingLayout.setVisibility(View.GONE);
-                                              directionBtn.setVisibility(View.VISIBLE);
-                                              dogFocusLocation.setVisibility(View.VISIBLE);
-
-
-
-                                              directionBtn.setOnClickListener(v->{
-                                                  String from = location.getLatitude() + "," + location.getLongitude();
-                                                  String to = latitudeString + "," + longitudeString;
-
-                                                  getDirections(from, to);
-                                              });
-                                              double latitude = Double.parseDouble(latitudeString);
-                                              double longitude = Double.parseDouble(longitudeString);
-                                              if (marker != null) {
-                                                  marker.remove();
-                                              }
-
-                                              LatLng latLng = new LatLng(latitude, longitude);
-                                              MarkerOptions markerOptions = new MarkerOptions();
-                                              markerOptions.title("Dog's location");
-                                              markerOptions.position(latLng).icon(setIcon((Activity) getContext(), R.drawable.dog_mark_location_icon));
-
-                                              marker = gMap.addMarker(markerOptions);
-
-                                              CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 17);
-                                              gMap.animateCamera(cameraUpdate);
-
-                                              dogFocusLocation.setOnClickListener(v->{
-                                                  gMap.animateCamera(cameraUpdate);
-                                              });
-                                          }
+                                                                                locatingLayout.setVisibility(View.VISIBLE);
+                                                                            }
+                                                                            // latitude and longitude is not null
+                                                                            else{
+                                                                                locatingLayout.setVisibility(View.GONE);
+                                                                                directionBtn.setVisibility(View.VISIBLE);
+                                                                                dogFocusLocation.setVisibility(View.VISIBLE);
 
 
-                                        }
 
-                                    }
+                                                                                directionBtn.setOnClickListener(v->{
+                                                                                    String from = location.getLatitude() + "," + location.getLongitude();
+                                                                                    String to = latitudeString + "," + longitudeString;
 
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
+                                                                                    getDirections(from, to);
+                                                                                });
+                                                                                double latitude = Double.parseDouble(latitudeString);
+                                                                                double longitude = Double.parseDouble(longitudeString);
+                                                                                if (marker != null) {
+                                                                                    marker.remove();
+                                                                                }
 
-                                        Log.d("TAG", "Failed to retrieve location");
+                                                                                LatLng latLng = new LatLng(latitude, longitude);
+                                                                                MarkerOptions markerOptions = new MarkerOptions();
+                                                                                markerOptions.title("Dog's location");
+                                                                                if (getContext()!= null){
+                                                                                    markerOptions.position(latLng).icon(setIcon((Activity) getContext(), R.drawable.dog_mark_location_icon));
 
-                                    }
-                                });
+                                                                                    marker = gMap.addMarker(markerOptions);
+
+                                                                                    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 17);
+                                                                                    gMap.animateCamera(cameraUpdate);
+
+                                                                                    dogFocusLocation.setOnClickListener(v->{
+                                                                                        gMap.animateCamera(cameraUpdate);
+                                                                                    });
+                                                                                }
+
+                                                                            }
+
+
+                                                                        }
+
+                                                                    }
+
+                                                                    @Override
+                                                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                                                        Log.d("TAG", "Failed to retrieve location");
+
+                                                                    }
+                                                                });
+                                                            }
+
+                                                        }
+
+                                                    }
+                                                }
+                                            }
+                                        });
+
+
+
+
 
                             }
                         });

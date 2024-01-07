@@ -12,4 +12,5 @@
     <color name="low_heart_rate">#FBF44C</color>
     <color name="normal_heart_rate">#21CAFF</color>
     <color name="normal_heart_rate_bg">#C8F2FF</color>
+    <color name="average_heart_rate_bg">#42FF00</color>
 </resources>

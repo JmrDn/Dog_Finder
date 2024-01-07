@@ -22,6 +22,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class Login extends AppCompatActivity {
     TextView forgotPassword, noAccountYet;
@@ -39,6 +41,7 @@ public class Login extends AppCompatActivity {
 
         initWidgets();
         passwordHideMethod();
+        newUser();
 
         forgotPassword.setOnClickListener(v->{
             startActivity(new Intent(getApplicationContext(), ForgotPassword.class));
@@ -81,6 +84,11 @@ public class Login extends AppCompatActivity {
             }
         });
     }
+
+    private void newUser() {
+
+    }
+
     @SuppressLint("ClickableViewAccessibility")
     private void passwordHideMethod() {
         password.setOnTouchListener(new View.OnTouchListener() {
@@ -126,8 +134,28 @@ public class Login extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()){
                             //Successfully log in
-                            Toast.makeText(getApplicationContext(), "Successfully log in", Toast.LENGTH_LONG).show();
-                            startActivity(new Intent(getApplicationContext(), HomePage.class));
+                            FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getUid())
+                                    .get()
+                                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                            if (task.isSuccessful()){
+                                                DocumentSnapshot documentSnapshot = task.getResult();
+                                                if(documentSnapshot.exists()){
+                                                    if (!documentSnapshot.contains("dog_name") &&
+                                                            !documentSnapshot.contains("dog_breed")){
+                                                        Toast.makeText(getApplicationContext(), "Successfully log in", Toast.LENGTH_LONG).show();
+                                                        startActivity(new Intent(getApplicationContext(), NewUserPage1.class));
+                                                    }
+                                                    else{
+                                                        Toast.makeText(getApplicationContext(), "Successfully log in", Toast.LENGTH_LONG).show();
+                                                        startActivity(new Intent(getApplicationContext(), HomePage.class));
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    });
+
                         }
                         else{
                             progressBar.setVisibility(View.GONE);
@@ -155,8 +183,9 @@ public class Login extends AppCompatActivity {
     protected void onStart() {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
-        if(firebaseAuth.getCurrentUser() != null){
-            startActivity(new Intent(getApplicationContext(), HomePage.class));
+        if (firebaseAuth.getCurrentUser() != null){
+           startActivity(new Intent(getApplicationContext(), HomePage.class));
+
         }
         super.onStart();
     }

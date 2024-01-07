@@ -73,9 +73,11 @@ public class DayActivity extends AppCompatActivity implements OnMapReadyCallback
     private TextView toolbarTitle,
             highestHeartRate,
             lowestHeartRate,
-            noLocation;
+            noLocation,
+            averageHeartRate;
     private String highestHeartRateString,
             lowestHeartRateString,
+            averageHeartRateString,
             date,
             dateId;
     private double latitude,
@@ -204,6 +206,7 @@ public class DayActivity extends AppCompatActivity implements OnMapReadyCallback
         Intent intent = getIntent();
         highestHeartRateString = intent.getStringExtra("highestHeartRate");
         lowestHeartRateString = intent.getStringExtra("lowestHeartRate");
+        averageHeartRateString = intent.getStringExtra("averageHeartRate");
 
         String latitudeString = intent.getStringExtra("latitude");
         String longitudeString = intent.getStringExtra("longitude");
@@ -220,6 +223,7 @@ public class DayActivity extends AppCompatActivity implements OnMapReadyCallback
 
         highestHeartRate.setText(highestHeartRateString);
         lowestHeartRate.setText(lowestHeartRateString);
+        averageHeartRate.setText(averageHeartRateString);
 
         toolbarTitle.setText(date);
     }
@@ -228,6 +232,7 @@ public class DayActivity extends AppCompatActivity implements OnMapReadyCallback
         toolbarTitle = findViewById(R.id.toolBarDate_Textview);
         highestHeartRate = findViewById(R.id.highestHeartRate_Textview);
         lowestHeartRate = findViewById(R.id.lowestHeartRate_Textview);
+        averageHeartRate = findViewById(R.id.averageHeartRate_Textview);
 
         heartRateLineChart = findViewById(R.id.heartRate_LineChart);
 

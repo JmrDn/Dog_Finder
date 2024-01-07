@@ -10,8 +10,9 @@ public class HistoryModel {
 
     String highestHeartRate;
     String lowestHeartRate;
+    String averageHeartRate;
 
-    public HistoryModel(String heartRate, String address, String date,String dateId, double latitude, double longitude, String highestHeartRate, String lowestHeartRate) {
+    public HistoryModel(String heartRate, String address, String date,String dateId, double latitude, double longitude, String highestHeartRate, String lowestHeartRate,String averageHeartRate) {
         this.heartRate = heartRate;
         this.address = address;
         this.date = date;
@@ -20,6 +21,15 @@ public class HistoryModel {
         this.longitude = longitude;
         this.highestHeartRate = highestHeartRate;
         this.lowestHeartRate = lowestHeartRate;
+        this.averageHeartRate = averageHeartRate;
+    }
+
+    public String getAverageHeartRate() {
+        return averageHeartRate;
+    }
+
+    public void setAverageHeartRate(String averageHeartRate) {
+        this.averageHeartRate = averageHeartRate;
     }
 
     public String getHeartRate() {
