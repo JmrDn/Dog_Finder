@@ -135,6 +135,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                         gMap.setMyLocationEnabled(true);
                         gMap.getUiSettings().setCompassEnabled(true);
 
+
+
                         fusedLocationProviderClient.getLastLocation().addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
@@ -203,8 +205,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
                                                                                     marker = gMap.addMarker(markerOptions);
 
-                                                                                    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 17);
-                                                                                    gMap.animateCamera(cameraUpdate);
+                                                                                    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 18);
+
+                                                                                    if (!gMap.getUiSettings().isZoomControlsEnabled())
+                                                                                        gMap.animateCamera(cameraUpdate);
 
                                                                                     dogFocusLocation.setOnClickListener(v->{
                                                                                         gMap.animateCamera(cameraUpdate);

@@ -303,15 +303,17 @@ public class DayActivity extends AppCompatActivity implements OnMapReadyCallback
                                         marker.remove();
                                     }
 
-                                    LatLng latLng = new LatLng(latitude, longitude);
-                                    MarkerOptions markerOptions = new MarkerOptions();
-                                    markerOptions.title("Dog's location");
-                                    markerOptions.position(latLng).icon(setIcon((Activity) getApplicationContext(), R.drawable.dog_mark_location_icon));
+                                    if (getApplicationContext()!= null){
+                                        LatLng latLng = new LatLng(latitude, longitude);
+                                        MarkerOptions markerOptions = new MarkerOptions();
+                                        markerOptions.title("Dog's location");
+                                        markerOptions.position(latLng).icon(setIcon((Activity) DayActivity.this, R.drawable.dog_mark_location_icon));
 
-                                    marker = gMap.addMarker(markerOptions);
+                                        marker = gMap.addMarker(markerOptions);
 
-                                    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 17);
-                                    gMap.animateCamera(cameraUpdate);
+                                        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 17);
+                                        gMap.animateCamera(cameraUpdate);
+                                    }
 
                                 }
 

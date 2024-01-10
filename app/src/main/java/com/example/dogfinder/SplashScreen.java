@@ -23,28 +23,29 @@ public class SplashScreen extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (FirebaseAuth.getInstance().getCurrentUser() != null){
-                    FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getUid())
-                            .get()
-                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                    if (task.isSuccessful()){
-                                        DocumentSnapshot documentSnapshot = task.getResult();
-                                        if(documentSnapshot.exists()){
-                                            if (!documentSnapshot.contains("dog_name") ||
-                                                    !documentSnapshot.contains("dog_breed")){
-                                                startActivity(new Intent(getApplicationContext(), NewUserPage1.class));
-                                            }
-                                            else{
-                                                startActivity(new Intent(getApplicationContext(), Login.class));
-                                            }
-                                        }
-                                    }
-                                }
-                            });
+//                if (FirebaseAuth.getInstance().getCurrentUser() != null){
+//                    FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getUid())
+//                            .get()
+//                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                                @Override
+//                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                                    if (task.isSuccessful()){
+//                                        DocumentSnapshot documentSnapshot = task.getResult();
+//                                        if(documentSnapshot.exists()){
+//                                            if (!documentSnapshot.contains("dog_name") ||
+//                                                    !documentSnapshot.contains("dog_breed")){
+//                                                startActivity(new Intent(getApplicationContext(), NewUserPage1.class));
+//                                            }
+//                                            else{
+//                                                startActivity(new Intent(getApplicationContext(), Login.class));
+//                                            }
+//                                        }
+//                                    }
+//                                }
+//                            });
 
-                }
+//                }
+                startActivity(new Intent(getApplicationContext(), Login.class));
 
             }
         }, 4000);

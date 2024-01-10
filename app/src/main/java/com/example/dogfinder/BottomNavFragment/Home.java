@@ -114,23 +114,35 @@ public class Home extends Fragment {
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()){
                             DocumentSnapshot documentSnapshot = task.getResult();
-                            if (documentSnapshot.exists()){
-                                if (documentSnapshot.contains("isConnected") &&
-                                        documentSnapshot.contains("isConnectedToSensorId")){
-                                    boolean isConnected = documentSnapshot.getBoolean("isConnected");
-                                    String sensorId = documentSnapshot.getString("isConnectedToSensorId");
+                            if (getContext()!= null){
+                                if (documentSnapshot.exists()){
+                                    if (documentSnapshot.contains("isConnected") &&
+                                            documentSnapshot.contains("isConnectedToSensorId")){
+                                        boolean isConnected = documentSnapshot.getBoolean("isConnected");
+                                        String sensorId = documentSnapshot.getString("isConnectedToSensorId");
 
-                                    if(isConnected){
+                                        if(isConnected){
 
-                                        setUpHeartRateProgress(sensorId);
-                                        setTodayHeartRateAndLocation(sensorId);
-                                        connectToSensorBtn.setColorFilter(ContextCompat.getColor(getContext(), R.color.color_primary));
-                                        connectToSensorBtn.setOnClickListener(v->{
-                                            Intent intent = new Intent(getContext(), SensorInfo.class);
-                                            intent.putExtra("sensorId", sensorId);
-                                            intent.putExtra("isConnected", true);
-                                            startActivity(intent);
-                                        });
+                                            setUpHeartRateProgress(sensorId);
+                                            setTodayHeartRateAndLocation(sensorId);
+                                            connectToSensorBtn.setColorFilter(ContextCompat.getColor(getContext(), R.color.color_primary));
+                                            connectToSensorBtn.setOnClickListener(v->{
+                                                Intent intent = new Intent(getContext(), SensorInfo.class);
+                                                intent.putExtra("sensorId", sensorId);
+                                                intent.putExtra("isConnected", true);
+                                                startActivity(intent);
+                                            });
+                                        }
+                                        else{
+                                            heartRateTV.setText("0");
+                                            heartRateProgress.setBackgroundResource(R.drawable.low_heart_rate_progress_bg);
+                                            heartRateProgress.setProgressDrawable(ContextCompat.getDrawable(getContext(), R.drawable.low_heart_rate_progress_bg));
+                                            connectToSensorBtn.setColorFilter(Color.RED);
+
+                                            connectToSensorBtn.setOnClickListener(v->{
+                                                startActivity(new Intent(getContext(), ConnectToSensor.class));
+                                            });
+                                        }
                                     }
                                     else{
                                         heartRateTV.setText("0");
@@ -142,18 +154,8 @@ public class Home extends Fragment {
                                             startActivity(new Intent(getContext(), ConnectToSensor.class));
                                         });
                                     }
-                                    }
-                                else{
-                                    heartRateTV.setText("0");
-                                    heartRateProgress.setBackgroundResource(R.drawable.low_heart_rate_progress_bg);
-                                    heartRateProgress.setProgressDrawable(ContextCompat.getDrawable(getContext(), R.drawable.low_heart_rate_progress_bg));
-                                    connectToSensorBtn.setColorFilter(Color.RED);
-
-                                    connectToSensorBtn.setOnClickListener(v->{
-                                        startActivity(new Intent(getContext(), ConnectToSensor.class));
-                                    });
                                 }
-                                }
+                            }
                             }
                         }
                 });
@@ -180,6 +182,7 @@ public class Home extends Fragment {
                     heartRateProgress.setProgress(heartRate);
 
 
+                if (getContext()!= null){
                     //Set color of progressbar
                     if (heartRateProgress.getProgress() < 70 ){
 
@@ -203,6 +206,7 @@ public class Home extends Fragment {
 
 
                     }
+                }
 
                 }
 
@@ -268,10 +272,18 @@ public class Home extends Fragment {
                             .document(dateForDocumentName).collection(dateForDocumentName);
 
                     HashMap<String, Object> todayHeartRateAndLocation = new HashMap<>();
-                    todayHeartRateAndLocation.put("heart_rate", heartRate);
-                    todayHeartRateAndLocation.put("date_and_time", timeStamp);
-                    todayHeartRateAndLocation.put("latitude", latitude);
-                    todayHeartRateAndLocation.put("longitude", longitude);
+
+                    if (Integer.parseInt(heartRate) != 0 && heartRate != null){
+                        todayHeartRateAndLocation.put("heart_rate", heartRate);
+                        todayHeartRateAndLocation.put("date_and_time", timeStamp);
+                        todayHeartRateAndLocation.put("latitude", latitude);
+                        todayHeartRateAndLocation.put("longitude", longitude);
+                    }
+
+
+
+
+
 
 
                     new Handler().postDelayed(new Runnable() {
@@ -339,12 +351,15 @@ public class Home extends Fragment {
                                         longitude = (double) latestDocument.get("longitude");
 
                                     }
+                                    else{
+                                        latitude = 0;
+                                        longitude = 0;
+                                    }
 
-                                    double latitude = 0;
-                                    double longitude = 0;
+
                                     int heartRate;
                                     int totalHeartRate = 0;
-                                    int heartRateAve;
+                                    int heartRateAve = 0;
                                     int heartRateDataLength = 0;
                                     int highestHeartRate = 0;
                                     int lowestHeartRate = 400;
@@ -364,7 +379,9 @@ public class Home extends Fragment {
                                         heartRateDataLength++;
                                     }
 
-                                    heartRateAve = totalHeartRate / heartRateDataLength;
+                                    if (totalHeartRate != 0 && heartRateDataLength != 0){
+                                        heartRateAve = totalHeartRate / heartRateDataLength;
+                                    }
                                     setDataAverage(heartRateAve, latitude, longitude, highestHeartRate, lowestHeartRate);
 
                                 }

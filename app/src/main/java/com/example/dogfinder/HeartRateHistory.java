@@ -77,13 +77,18 @@ public class HeartRateHistory extends AppCompatActivity {
 
                                 if (!querySnapshot.isEmpty() && querySnapshot != null){
                                     list.clear();
+                                    String previousTime = "";
                                     for(DocumentSnapshot documentSnapshot : querySnapshot.getDocuments()){
                                         String heartRate = documentSnapshot.getString("heart_rate");
                                         String dateAndTime = documentSnapshot.getString("date_and_time");
-
                                         String time = DateAndTimeFormatUtils.dateAndTimeConvertedToTimeFormat(dateAndTime);
+                                        if (!previousTime.equals(time)){
+                                            list.add(new HeartRateHistoryModel(heartRate, time));
+                                            previousTime = time;
+                                        }
 
-                                        list.add(new HeartRateHistoryModel(heartRate, time));
+
+
 
                                     }
                                     if(myAdapter != null){
